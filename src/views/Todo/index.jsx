@@ -63,15 +63,14 @@ function Todo(props) {
     setItems(item);
   };
 
-  const [isOpen, setIsOpen] = useState(false);
-
   const handleEdit = (index) => {
     setValueInput({
       ...valueInput,
       inputEdit: items[index].name,
       indexEdit: index,
     });
-    setIsOpen(!isOpen);
+    setIsOpenEdit(!isOpenEdit);
+
   };
 
   const handleSaveEdit = () => {
@@ -79,11 +78,12 @@ function Todo(props) {
     let index = valueInput.indexEdit;
     item[index].name = valueInput.inputEdit;
     setItems(item);
-    setIsOpen(!isOpen);
+    setIsOpenEdit(!isOpenEdit);
   };
 
+  const [isOpenEdit, setIsOpenEdit] = useState(true);
   const  handleCloseEdit = () => {
-      console.log("close form Edit");
+    setIsOpenEdit(!isOpenEdit);
   }
   return (
     <div className="todo">
@@ -172,7 +172,11 @@ function Todo(props) {
         </div>
       </div>
 
-      <div className="todo__edit edit">
+      <div className={classNames({
+          "todo__edit": true,
+          "edit": true,
+          "display-none": isOpenEdit
+      })}>
         <div className="edit__title">Edit: </div>
         <div className="edit__content content">
           <input
