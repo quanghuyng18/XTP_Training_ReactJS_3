@@ -5,13 +5,13 @@
         text-align: center;
         font-weight: bold;
     }
-    &__add, &__task{
+    &__add, &__task, &__edit{
         border: 1px solid $c-border;
         border-radius: 0.25rem;
         margin-bottom: 30px;
     }
 }
-.add, .task{
+.add, .task, .edit{
     &__title{
         padding: 10px 15px;
         font-weight: 600;
