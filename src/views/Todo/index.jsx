@@ -2,20 +2,6 @@ import React, { useState } from "react";
 import classNames from "classnames";
 import "./styles.scss";
 
-const inititems = [
-  {
-    name: "Aflreds Futterkiste",
-    status: "new",
-    action: {
-      new: false,
-      depending: true,
-      complete: true,
-      edit: true,
-      delete: true,
-    },
-  },
-];
-
 function Todo(props) {
   const inititems = [
     {
