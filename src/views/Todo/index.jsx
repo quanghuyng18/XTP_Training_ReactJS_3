@@ -61,14 +61,17 @@ function Todo(props) {
     setIsOpenEdit(!isOpenEdit);
   };
 
+
+  const  [valueFilter, setValueFilter] = useState(items);
   const getValFilter = (val) => {
-    let item = [...items];
-    let { valSearch, valSelect } = val;
-    console.log(val);
-    let result = item.filter((i) => {
-      return i.status.toLocaleLowerCase().includes(valSelect);
-    });
-    setItems(result);
+    // let item = [...items];
+    // let { valSearch, valSelect } = val;
+    // console.log(val);
+    // let result = item.filter((i) => {
+    //   return i.status.toLocaleLowerCase().includes(valSelect);
+    // });
+
+    // setItems(result);
   };
 
   const handleSaveEdit = (value) => {

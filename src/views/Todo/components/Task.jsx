@@ -13,14 +13,14 @@ function Task(props) {
   const { items } = props;
   const [valFilter, setValFilter] = useState({
     valSearch: "",
-    valSelect: "all",
+    valSelect: "",
   });
   const handleChangeInput = (e) => {
     let { name, value } = e.target;
     let valueUpdate = {
       ...valFilter,
       [name]: value,
-    }
+    };
     setValFilter(valueUpdate);
     props.getValFilter(valueUpdate);
   };
@@ -52,7 +52,7 @@ function Task(props) {
             value={valFilter.valSelect}
             onChange={handleChangeInput}
           >
-            <option value="all">All</option>
+            <option value="">All</option>
             <option value="new">New</option>
             <option value="depending">Depending</option>
             <option value="completed">Completed</option>
@@ -69,53 +69,60 @@ function Task(props) {
             </tr>
           </thead>
           <tbody>
-            {items?.map((item, index) => {
-              return (
-                <tr
-                  key={index}
-                  className={classNames({
-                    new: item.status === "new",
-                    completed: item.status === "completed",
-                    depending: item.status === "depending",
-                  })}
-                >
-                  <td>{item.name}</td>
-                  <td>{item.status}</td>
-                  <td>
-                    <button
-                      className="btn btn--primary mr-15 pointer"
-                      onClick={() => handleStatus(index, "new")}
-                    >
-                      New
-                    </button>
-                    <button
-                      className="btn btn--primary mr-15 pointer"
-                      onClick={() => handleStatus(index, "depending")}
-                    >
-                      Depending
-                    </button>
-                    <button
-                      className="btn btn--primary mr-15 pointer"
-                      onClick={() => handleStatus(index, "completed")}
-                    >
-                      Complete
-                    </button>
-                    <button
-                      className="btn btn--primary mr-15 pointer"
-                      onClick={() => handleEdit(index)}
-                    >
-                      Edit
-                    </button>
-                    <button
-                      className="btn btn--secondary mr-15 pointer"
-                      onClick={() => handleDelete(index)}
-                    >
-                      Delete
-                    </button>
-                  </td>
-                </tr>
-              );
-            })}
+            {items
+              .filter((i) => {
+                return (
+                  i.name.toLocaleLowerCase().includes(valFilter.valSearch)&&
+                  i.status.includes(valFilter.valSelect)
+                );
+              })
+              .map((item, index) => {
+                return (
+                  <tr
+                    key={index}
+                    className={classNames({
+                      new: item.status === "new",
+                      completed: item.status === "completed",
+                      depending: item.status === "depending",
+                    })}
+                  >
+                    <td>{item.name}</td>
+                    <td>{item.status}</td>
+                    <td>
+                      <button
+                        className="btn btn--primary mr-15 pointer"
+                        onClick={() => handleStatus(index, "new")}
+                      >
+                        New
+                      </button>
+                      <button
+                        className="btn btn--primary mr-15 pointer"
+                        onClick={() => handleStatus(index, "depending")}
+                      >
+                        Depending
+                      </button>
+                      <button
+                        className="btn btn--primary mr-15 pointer"
+                        onClick={() => handleStatus(index, "completed")}
+                      >
+                        Complete
+                      </button>
+                      <button
+                        className="btn btn--primary mr-15 pointer"
+                        onClick={() => handleEdit(index)}
+                      >
+                        Edit
+                      </button>
+                      <button
+                        className="btn btn--secondary mr-15 pointer"
+                        onClick={() => handleDelete(index)}
+                      >
+                        Delete
+                      </button>
+                    </td>
+                  </tr>
+                );
+              })}
           </tbody>
         </table>
       </div>
