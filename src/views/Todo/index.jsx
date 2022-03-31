@@ -3,21 +3,27 @@ import "./styles.scss";
 import AddTask from "./components/AddTask";
 import Task from "./components/Task";
 import EditTask from "./components/EditTask";
-import { Util } from "../../Helper/Util";
+import Random from "../../Helper/Random";
 
 function Todo(props) {
   const inititems = [
     {
+      id: "123124",
       name: "Aflreds Futterkiste",
       status: "new",
+      time: "1648734546083",
     },
     {
+      id: "123134",
       name: "bbbb",
       status: "depending",
+      time: "1648734546084",
     },
     {
+      id: "122124",
       name: "vvv",
       status: "new",
+      time: "1648734546085`",
     },
   ];
   const [valueInput, setValueInput] = useState({
@@ -30,53 +36,42 @@ function Todo(props) {
     let task = val.inputTask;
     let item = [...items];
     let schema = {
+      id: Random.number(6),
       name: task,
       status: "new",
+      time: new Date().getTime(),
     };
     item.push(schema);
     setItems(item);
-    setValueInput({
-      ...valueInput,
-      inputTask: "",
-    });
   };
 
-  const handleStatus = (index, status) => {
+  const handleStatus = (id, status) => {
     let item = [...items];
+    let index = item.findIndex((item) => item.id === id);
     item[index].status = status;
     setItems(item);
   };
-  const handleDelete = (index) => {
+  const handleDelete = (id) => {
     let item = [...items];
+    let index = item.findIndex((item) => item.id === id);
     item.splice(index, 1);
     setItems(item);
   };
 
-  const handleEdit = (index) => {
+  const handleOpenEdit = (id) => {
+    let item = [...items];
+    let index = item.findIndex((item) => item.id === id);
     setValueInput({
       ...valueInput,
       inputEdit: items[index].name,
-      indexEdit: index,
+      idElementEdit: id,
     });
     setIsOpenEdit(!isOpenEdit);
   };
 
-
-  const  [valueFilter, setValueFilter] = useState(items);
-  const getValFilter = (val) => {
-    // let item = [...items];
-    // let { valSearch, valSelect } = val;
-    // console.log(val);
-    // let result = item.filter((i) => {
-    //   return i.status.toLocaleLowerCase().includes(valSelect);
-    // });
-
-    // setItems(result);
-  };
-
   const handleSaveEdit = (value) => {
     let item = [...items];
-    let index = valueInput.indexEdit;
+    let index = item.findIndex((item) => item.id === valueInput.idElementEdit);
     item[index].name = value;
     setItems(item);
     setIsOpenEdit(!isOpenEdit);
@@ -92,9 +87,8 @@ function Todo(props) {
       <AddTask handleSubmit={handleSubmit} />
       <Task
         handleStatus={handleStatus}
-        handleEdit={handleEdit}
+        handleEdit={handleOpenEdit}
         handleDelete={handleDelete}
-        getValFilter={getValFilter}
         items={items}
       />
       <EditTask

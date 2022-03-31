@@ -22,16 +22,15 @@ function Task(props) {
       [name]: value,
     };
     setValFilter(valueUpdate);
-    props.getValFilter(valueUpdate);
   };
-  const handleStatus = (index, status) => {
-    props.handleStatus(index, status);
+  const handleStatus = (id, status) => {
+    props.handleStatus(id, status);
   };
-  const handleEdit = (index) => {
-    props.handleEdit(index);
+  const handleEdit = (id) => {
+    props.handleEdit(id);
   };
-  const handleDelete = (index) => {
-    props.handleDelete(index);
+  const handleDelete = (id) => {
+    props.handleDelete(id);
   };
   return (
     <div className="todo__task task">
@@ -65,6 +64,7 @@ function Task(props) {
             <tr>
               <th>Items </th>
               <th>Status</th>
+              <th>Time</th>
               <th>Action</th>
             </tr>
           </thead>
@@ -76,10 +76,11 @@ function Task(props) {
                   i.status.includes(valFilter.valSelect)
                 );
               })
-              .map((item, index) => {
+              .reverse()
+              .map((item) => {
                 return (
                   <tr
-                    key={index}
+                    key={item.id}
                     className={classNames({
                       new: item.status === "new",
                       completed: item.status === "completed",
@@ -88,34 +89,35 @@ function Task(props) {
                   >
                     <td>{item.name}</td>
                     <td>{item.status}</td>
+                    <td>{item.time}</td>
                     <td>
                       <button
                         className="btn btn--primary mr-15 pointer"
-                        onClick={() => handleStatus(index, "new")}
+                        onClick={() => handleStatus(item.id, "new")}
                       >
                         New
                       </button>
                       <button
                         className="btn btn--primary mr-15 pointer"
-                        onClick={() => handleStatus(index, "depending")}
+                        onClick={() => handleStatus(item.id, "depending")}
                       >
                         Depending
                       </button>
                       <button
                         className="btn btn--primary mr-15 pointer"
-                        onClick={() => handleStatus(index, "completed")}
+                        onClick={() => handleStatus(item.id, "completed")}
                       >
                         Complete
                       </button>
                       <button
                         className="btn btn--primary mr-15 pointer"
-                        onClick={() => handleEdit(index)}
+                        onClick={() => handleEdit(item.id)}
                       >
                         Edit
                       </button>
                       <button
                         className="btn btn--secondary mr-15 pointer"
-                        onClick={() => handleDelete(index)}
+                        onClick={() => handleDelete(item.id)}
                       >
                         Delete
                       </button>

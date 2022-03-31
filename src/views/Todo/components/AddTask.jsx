@@ -18,6 +18,10 @@ function AddTask(props) {
   };
   const handleSubmit = () => {
     props.handleSubmit(valueInput);
+    setValueInput({
+      ...valueInput,
+      inputTask: "",
+    });
   };
   return (
     <div className="todo__add add">
