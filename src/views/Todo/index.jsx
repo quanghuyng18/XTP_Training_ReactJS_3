@@ -3,11 +3,20 @@ import "./styles.scss";
 import AddTask from "./components/AddTask";
 import Task from "./components/Task";
 import EditTask from "./components/EditTask";
+import { Util } from "../../Helper/Util";
 
 function Todo(props) {
   const inititems = [
     {
       name: "Aflreds Futterkiste",
+      status: "new",
+    },
+    {
+      name: "bbbb",
+      status: "depending",
+    },
+    {
+      name: "vvv",
       status: "new",
     },
   ];
@@ -52,6 +61,16 @@ function Todo(props) {
     setIsOpenEdit(!isOpenEdit);
   };
 
+  const getValFilter = (val) => {
+    let item = [...items];
+    let { valSearch, valSelect } = val;
+    console.log(val);
+    let result = item.filter((i) => {
+      return i.status.toLocaleLowerCase().includes(valSelect);
+    });
+    setItems(result);
+  };
+
   const handleSaveEdit = (value) => {
     let item = [...items];
     let index = valueInput.indexEdit;
@@ -72,6 +91,7 @@ function Todo(props) {
         handleStatus={handleStatus}
         handleEdit={handleEdit}
         handleDelete={handleDelete}
+        getValFilter={getValFilter}
         items={items}
       />
       <EditTask
