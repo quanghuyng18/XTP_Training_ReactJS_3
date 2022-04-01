@@ -1,5 +1,5 @@
-import React, { useState } from "react";
-import PropTypes from "prop-types";
+import React, { useState } from 'react';
+import PropTypes from 'prop-types';
 
 AddTask.propTypes = {
   handleSubmit: PropTypes.func.isRequired,
@@ -7,7 +7,7 @@ AddTask.propTypes = {
 
 function AddTask(props) {
   const [valueInput, setValueInput] = useState({
-    inputTask: "",
+    inputTask: '',
   });
   const handleInput = (e) => {
     const { value, name } = e.target;
@@ -20,7 +20,7 @@ function AddTask(props) {
     props.handleSubmit(valueInput);
     setValueInput({
       ...valueInput,
-      inputTask: "",
+      inputTask: '',
     });
   };
   return (
@@ -36,10 +36,7 @@ function AddTask(props) {
           onChange={handleInput}
         ></input>
         <p className="content__note">Enter what you want to procastinate </p>
-        <button
-          className="content_submit btn btn--primary pointer"
-          onClick={handleSubmit}
-        >
+        <button className="content_submit btn btn--primary pointer" onClick={handleSubmit}>
           Submit
         </button>
       </div>

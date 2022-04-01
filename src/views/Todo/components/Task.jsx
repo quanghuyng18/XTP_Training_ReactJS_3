@@ -1,6 +1,6 @@
-import React, { useState } from "react";
-import PropTypes from "prop-types";
-import classNames from "classnames";
+import React, { useState } from 'react';
+import PropTypes from 'prop-types';
+import classNames from 'classnames';
 
 Task.propTypes = {
   handleStatus: PropTypes.func.isRequired,
@@ -12,8 +12,8 @@ Task.propTypes = {
 function Task(props) {
   const { items } = props;
   const [valFilter, setValFilter] = useState({
-    valSearch: "",
-    valSelect: "",
+    valSearch: '',
+    valSelect: '',
   });
   const handleChangeInput = (e) => {
     let { name, value } = e.target;
@@ -72,8 +72,7 @@ function Task(props) {
             {items
               .filter((i) => {
                 return (
-                  i.name.toLocaleLowerCase().includes(valFilter.valSearch)&&
-                  i.status.includes(valFilter.valSelect)
+                  i.name.toLocaleLowerCase().includes(valFilter.valSearch) && i.status.includes(valFilter.valSelect)
                 );
               })
               .reverse()
@@ -82,43 +81,34 @@ function Task(props) {
                   <tr
                     key={item.id}
                     className={classNames({
-                      new: item.status === "new",
-                      completed: item.status === "completed",
-                      depending: item.status === "depending",
+                      new: item.status === 'new',
+                      completed: item.status === 'completed',
+                      depending: item.status === 'depending',
                     })}
                   >
                     <td>{item.name}</td>
                     <td>{item.status}</td>
                     <td>{item.time}</td>
                     <td>
-                      <button
-                        className="btn btn--primary mr-15 pointer"
-                        onClick={() => handleStatus(item.id, "new")}
-                      >
+                      <button className="btn btn--primary mr-15 pointer" onClick={() => handleStatus(item.id, 'new')}>
                         New
                       </button>
                       <button
                         className="btn btn--primary mr-15 pointer"
-                        onClick={() => handleStatus(item.id, "depending")}
+                        onClick={() => handleStatus(item.id, 'depending')}
                       >
                         Depending
                       </button>
                       <button
                         className="btn btn--primary mr-15 pointer"
-                        onClick={() => handleStatus(item.id, "completed")}
+                        onClick={() => handleStatus(item.id, 'completed')}
                       >
                         Complete
                       </button>
-                      <button
-                        className="btn btn--primary mr-15 pointer"
-                        onClick={() => handleEdit(item.id)}
-                      >
+                      <button className="btn btn--primary mr-15 pointer" onClick={() => handleEdit(item.id)}>
                         Edit
                       </button>
-                      <button
-                        className="btn btn--secondary mr-15 pointer"
-                        onClick={() => handleDelete(item.id)}
-                      >
+                      <button className="btn btn--secondary mr-15 pointer" onClick={() => handleDelete(item.id)}>
                         Delete
                       </button>
                     </td>

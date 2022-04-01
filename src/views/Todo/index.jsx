@@ -1,34 +1,34 @@
-import React, { useState } from "react";
-import "./styles.scss";
-import AddTask from "./components/AddTask";
-import Task from "./components/Task";
-import EditTask from "./components/EditTask";
-import Random from "../../Helper/Random";
+import React, { useState } from 'react';
+import './styles.scss';
+import AddTask from './components/AddTask';
+import Task from './components/Task';
+import EditTask from './components/EditTask';
+import Random from '../../Helper/Random';
 
 function Todo(props) {
   const inititems = [
     {
-      id: "123124",
-      name: "Aflreds Futterkiste",
-      status: "new",
-      time: "1648734546083",
+      id: '123124',
+      name: 'Aflreds Futterkiste',
+      status: 'new',
+      time: '1648734546083',
     },
     {
-      id: "123134",
-      name: "bbbb",
-      status: "depending",
-      time: "1648734546084",
+      id: '123134',
+      name: 'bbbb',
+      status: 'depending',
+      time: '1648734546084',
     },
     {
-      id: "122124",
-      name: "vvv",
-      status: "new",
-      time: "1648734546085`",
+      id: '122124',
+      name: 'vvv',
+      status: 'new',
+      time: '1648734546085`',
     },
   ];
   const [valueInput, setValueInput] = useState({
-    inputTask: "",
-    inputEdit: "",
+    inputTask: '',
+    inputEdit: '',
   });
 
   const [items, setItems] = useState(inititems);
@@ -38,7 +38,7 @@ function Todo(props) {
     let schema = {
       id: Random.number(6),
       name: task,
-      status: "new",
+      status: 'new',
       time: new Date().getTime(),
     };
     item.push(schema);
@@ -85,12 +85,7 @@ function Todo(props) {
     <div className="todo">
       <div className="todo__title">Todos</div>
       <AddTask handleSubmit={handleSubmit} />
-      <Task
-        handleStatus={handleStatus}
-        handleEdit={handleOpenEdit}
-        handleDelete={handleDelete}
-        items={items}
-      />
+      <Task handleStatus={handleStatus} handleEdit={handleOpenEdit} handleDelete={handleDelete} items={items} />
       <EditTask
         isOpenEdit={isOpenEdit}
         valueEdit={valueInput.inputEdit}

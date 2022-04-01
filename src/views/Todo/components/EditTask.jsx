@@ -1,18 +1,17 @@
-import React, { useEffect, useState } from "react";
-import PropTypes from "prop-types";
-import classNames from "classnames";
+import React, { useEffect, useState } from 'react';
+import PropTypes from 'prop-types';
+import classNames from 'classnames';
 
 EditTask.propTypes = {
-    isOpenEdit: PropTypes.bool.isRequired,
-    valueEdit: PropTypes.string.isRequired,
-    handleSaveEdit: PropTypes.func.isRequired,
-    handleCloseEdit: PropTypes.func.isRequired,
+  isOpenEdit: PropTypes.bool.isRequired,
+  valueEdit: PropTypes.string.isRequired,
+  handleSaveEdit: PropTypes.func.isRequired,
+  handleCloseEdit: PropTypes.func.isRequired,
 };
 
 function EditTask(props) {
   const { isOpenEdit, valueEdit } = props;
-
-  const [valueInputEdit, setValueInputEdit] = useState("");
+  const [valueInputEdit, setValueInputEdit] = useState('');
   useEffect(() => {
     setValueInputEdit(valueEdit);
   }, [valueEdit]);
@@ -31,7 +30,7 @@ function EditTask(props) {
       className={classNames({
         todo__edit: true,
         edit: true,
-        "display-none": isOpenEdit,
+        'display-none': isOpenEdit,
       })}
     >
       <div className="edit__title">Edit: </div>
@@ -44,16 +43,10 @@ function EditTask(props) {
           onChange={handleInputEdit}
         />
         <div className="content__button right mr-10">
-          <button
-            className="btn btn--primary pointer mr-15"
-            onClick={handleSaveEdit}
-          >
+          <button className="btn btn--primary pointer mr-15" onClick={handleSaveEdit}>
             Lưu
           </button>
-          <button
-            className="btn btn--secondary pointer"
-            onClick={handleCloseEdit}
-          >
+          <button className="btn btn--secondary pointer" onClick={handleCloseEdit}>
             Thoát
           </button>
         </div>
