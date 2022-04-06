@@ -1,12 +1,86 @@
 import React, { useState } from "react";
 import PropTypes from "prop-types";
 import "./styles.scss";
+import { computeHeadingLevel } from "@testing-library/react";
 
 Todo.propTypes = {};
 
 function Todo(props) {
+  const [color, setColor] = useState("green");
+  const [name, setName] = useState("");
+
+  const [texts, setTexts] = useState([
+    {id: "123", name: "task1", status: false },
+    {id: "312", name: "task2", status: true },
+  ]);
+
+  const addSaveText = () => {
+    const text = [...texts];
+    if(indexEdit===""){
+      const schema = {
+        name: name,
+        status: false,
+      };
+      text.push(schema);
+    }else{
+      const valEdit = text[indexEdit].name;
+      setName(valEdit);
+      text[indexEdit].name=name;
+    }
+    setTexts(text);
+  };
+
+  const handleDelete = (index) => {
+    const text = [...texts];
+    text.splice(index, 1);
+    setTexts(text);
+  };
+  const handleStatus = (index) => {
+    const text = [...texts];
+    text[index].status = !text[index].status;
+    setTexts(text);
+  };
+
+  const [indexEdit, setIndexEdit] = useState('')
+  const handleEdit =(index)=>{
+    setIndexEdit(index);
+    const text = [...texts];
+    const valEdit = text[index].name;
+    setName(valEdit);
+  }
+
   return (
     <div className="todo">
+      <div>
+        <div style={color === "green" ? { color: "green" } : { color: "red" }}>
+          Color: {color}
+        </div>
+        <div>
+          Name:2q
+          {texts.map((item, index) => (
+            <div key={index}>
+              <span>
+                {index + 1} - {item.name}::::::
+              </span>
+              <span style={item.status ? { color: "green" } : { color: "red" }}>
+                Trang thai: {item.status ? "complete" : "new"} ::::::{" "}
+              </span>
+              <button onClick={() => handleDelete(index)}>Delete</button>
+              <button onClick={() => handleStatus(index)}>Status</button>
+              <button onClick={() => handleEdit(index)}>Edit</button>
+            </div>
+          ))}
+        </div>
+      </div>
+      <div>
+        <input
+          type="text"
+          onChange={(e) => setName(e.target.value)}
+          value={name}
+        />
+        <button onClick={addSaveText} >{indexEdit === ''? "AddTask" : "SaveEdit"}</button>
+      </div>
+
       <div className="todo__title">Todos</div>
       <div className="todo__add add">
         <div className="add__title">Add a task</div>
