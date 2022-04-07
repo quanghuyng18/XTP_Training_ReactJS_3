@@ -1,34 +1,52 @@
-@import '../../styles/variable';
-.todo{
+@import "../../styles/variable";
+.todo {
     padding: 30px 30px;
-    &__title{
+    &__title {
         text-align: center;
         font-weight: bold;
     }
-    &__add, &__task{
+    &__add,
+    &__task,
+    &__edit{
         border: 1px solid $c-border;
         border-radius: 0.25rem;
         margin-bottom: 30px;
     }
 }
-.add, .task{
-    &__title{
+.add, 
+.task,
+.edit {
+    &__title {
         padding: 10px 15px;
         font-weight: 600;
         background-color: #f8f8f8;
         border-bottom: 1px solid $c-border;
     }
-    &__content{
+    &__content {
         padding: 15px;
     }
 }
 
-
-.content{
-    &__title{
-        font-weight: 600;
+.header {
+    padding: 10px;
+    border-bottom: 1px solid $c-border;
+    background-color: #f8f8f8;
+    &__title {
+        display: inline-block;
+        font-weight: bold;
     }
-    &__input-todo{
+    &__filter {
+        float: right;
+    }
+    &__input-search{
+        margin-right: 15px;
+    }
+    &__select-filter{
+    }
+}
+
+.content {
+    &__input-todo {
         width: calc(100% - 1.5rem);
         padding: 0.375rem 0.375rem;
         font-size: 1rem;
@@ -37,16 +55,33 @@
         border: 1px solid #ced4da;
         border-radius: 0.25rem;
     }
-    &__note{
+    &__note {
         font-size: 1rem;
         margin-bottom: 20px;
     }
-    &__complete{
+    &__complete {
         margin-right: 15px;
     }
 }
 
-.btn{
+.input{
+    padding: 0.375rem 2.25rem 0.375rem 0.75rem;
+    font-size: 1rem;
+    color: #495057;
+    border: 1px solid #ced4da;
+    border-radius: 0.25rem;
+}
+
+.select{
+    padding: 0.375rem 2.25rem 0.375rem 0.75rem;
+    font-size: 1rem;
+    font-weight: 400;
+    border: 1px solid #ced4da;
+    border-radius: 0.25rem;
+    transition: border-color .15s ease-in-out,box-shadow .15s ease-in-out;
+}
+
+.btn {
     display: inline-block;
     font-weight: 400;
     text-align: center;
@@ -58,35 +93,40 @@
     font-size: 1rem;
     line-height: 1.5;
     border-radius: 0.25rem;
-        &--primary {
-            color: #fff;
-            background-color: #007bff;  
-            border-color: #007bff;        
-        }
-        
-        &--secondary {
-            color: #fff;
-            background-color: #dc3545;  
-            border-color: #dc3545;      
-        }
+    &--primary {
+        color: #fff;
+        background-color: #007bff;
+        border-color: #007bff;
+    }
+
+    &--secondary {
+        color: #fff;
+        background-color: #dc3545;
+        border-color: #dc3545;
+    }
 }
-.table{
+
+.table {
     text-align: left;
-    thead{
-        th:nth-child(1){
-            width: 25vw;
+    thead {
+        th:nth-child(1) {
+            width: 15vw;
         }
-        th:nth-child(2){
-            width: 25vw;
+        th:nth-child(2) {
+            width: 15vw;
+        }
+        th:nth-child(3) {
+            width: 10vw;
         }
     }
 }
-.completed{
+
+.completed {
     color: red;
 }
-.depending{
+.depending {
     color: burlywood;
 }
-.new{
+.new {
     color: #007bff;
 }

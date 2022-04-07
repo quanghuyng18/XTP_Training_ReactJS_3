@@ -1,139 +1,97 @@
-import React, { useState } from "react";
-import PropTypes from "prop-types";
-import "./styles.scss";
-import { computeHeadingLevel } from "@testing-library/react";
-
-Todo.propTypes = {};
+import React, { useState } from 'react';
+import './styles.scss';
+import AddTask from './components/AddTask';
+import Task from './components/Task';
+import EditTask from './components/EditTask';
+import Random from '../../Helper/Random';
 
 function Todo(props) {
-  const [color, setColor] = useState("green");
-  const [name, setName] = useState("");
+  const inititems = [
+    {
+      id: '123124',
+      name: 'Aflreds Futterkiste',
+      status: 'new',
+      time: '1648734546083',
+    },
+    {
+      id: '123134',
+      name: 'bbbb',
+      status: 'depending',
+      time: '1648734546084',
+    },
+    {
+      id: '122124',
+      name: 'vvv',
+      status: 'new',
+      time: '1648734546085`',
+    },
+  ];
+  const [valueInput, setValueInput] = useState({
+    inputTask: '',
+    inputEdit: '',
+  });
 
-  const [texts, setTexts] = useState([
-    {id: "123", name: "task1", status: false },
-    {id: "312", name: "task2", status: true },
-  ]);
-
-  const addSaveText = () => {
-    const text = [...texts];
-    if(indexEdit===""){
-      const schema = {
-        name: name,
-        status: false,
-      };
-      text.push(schema);
-    }else{
-      const valEdit = text[indexEdit].name;
-      setName(valEdit);
-      text[indexEdit].name=name;
-    }
-    setTexts(text);
+  const [items, setItems] = useState(inititems);
+  const handleSubmit = (val) => {
+    let task = val.inputTask;
+    let item = [...items];
+    let schema = {
+      id: Random.number(6),
+      name: task,
+      status: 'new',
+      time: new Date().getTime(),
+    };
+    item.push(schema);
+    setItems(item);
   };
 
-  const handleDelete = (index) => {
-    const text = [...texts];
-    text.splice(index, 1);
-    setTexts(text);
+  const handleStatus = (id, status) => {
+    let item = [...items];
+    let index = item.findIndex((item) => item.id === id);
+    item[index].status = status;
+    setItems(item);
   };
-  const handleStatus = (index) => {
-    const text = [...texts];
-    text[index].status = !text[index].status;
-    setTexts(text);
+  const handleDelete = (id) => {
+    let item = [...items];
+    let index = item.findIndex((item) => item.id === id);
+    item.splice(index, 1);
+    setItems(item);
   };
 
-  const [indexEdit, setIndexEdit] = useState('')
-  const handleEdit =(index)=>{
-    setIndexEdit(index);
-    const text = [...texts];
-    const valEdit = text[index].name;
-    setName(valEdit);
-  }
+  const handleOpenEdit = (id) => {
+    let item = [...items];
+    let index = item.findIndex((item) => item.id === id);
+    setValueInput({
+      ...valueInput,
+      inputEdit: items[index].name,
+      idElementEdit: id,
+    });
+    setIsOpenEdit(!isOpenEdit);
+  };
 
+  const handleSaveEdit = (value) => {
+    let item = [...items];
+    let index = item.findIndex((item) => item.id === valueInput.idElementEdit);
+    item[index].name = value;
+    setItems(item);
+    setIsOpenEdit(!isOpenEdit);
+  };
+
+  const [isOpenEdit, setIsOpenEdit] = useState(true);
+  const handleCloseEdit = () => {
+    setIsOpenEdit(!isOpenEdit);
+  };
   return (
     <div className="todo">
-      <div>
-        <div style={color === "green" ? { color: "green" } : { color: "red" }}>
-          Color: {color}
-        </div>
-        <div>
-          Name:2q
-          {texts.map((item, index) => (
-            <div key={index}>
-              <span>
-                {index + 1} - {item.name}::::::
-              </span>
-              <span style={item.status ? { color: "green" } : { color: "red" }}>
-                Trang thai: {item.status ? "complete" : "new"} ::::::{" "}
-              </span>
-              <button onClick={() => handleDelete(index)}>Delete</button>
-              <button onClick={() => handleStatus(index)}>Status</button>
-              <button onClick={() => handleEdit(index)}>Edit</button>
-            </div>
-          ))}
-        </div>
-      </div>
-      <div>
-        <input
-          type="text"
-          onChange={(e) => setName(e.target.value)}
-          value={name}
-        />
-        <button onClick={addSaveText} >{indexEdit === ''? "AddTask" : "SaveEdit"}</button>
-      </div>
-
       <div className="todo__title">Todos</div>
-      <div className="todo__add add">
-        <div className="add__title">Add a task</div>
-        <div className="add__content content">
-          <p className="content__title">item</p>
-          <input
-            className="content__input-todo"
-            placeholder="What do you wants to do?"
-            name="inputTask"
-          ></input>
-          <p className="content__note">Enter what you want to procastinate </p>
-          <button className="content_submit btn btn--primary pointer">
-            Submit
-          </button>
-        </div>
-      </div>
-      <div className="todo__task task">
-        <div className="task__title">Task</div>
-        <div className="task__content content">
-          <table className="task__table table">
-            <thead>
-              <tr>
-                <th>Items </th>
-                <th>Status</th>
-                <th>Action</th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr>
-                <td>Task1</td>
-                <td>New</td>
-                <td>
-                  <button className="btn btn--primary mr-15 pointer">
-                    New
-                  </button>
-                  <button className="btn btn--primary mr-15 pointer">
-                    Depending
-                  </button>
-                  <button className="btn btn--primary mr-15 pointer">
-                    Complete
-                  </button>
-                  <button className="btn btn--primary mr-15 pointer">
-                    Edit
-                  </button>
-                  <button className="btn btn--secondary mr-15 pointer">
-                    Delete
-                  </button>
-                </td>
-              </tr>
-            </tbody>
-          </table>
-        </div>
-      </div>
+      <AddTask handleSubmit={handleSubmit} />
+      <Task handleStatus={handleStatus} handleEdit={handleOpenEdit} handleDelete={handleDelete} items={items} />
+      <EditTask
+        isOpenEdit={isOpenEdit}
+        valueEdit={valueInput.inputEdit}
+        handleSaveEdit={handleSaveEdit}
+        handleCloseEdit={handleCloseEdit}
+      />
     </div>
   );
 }
