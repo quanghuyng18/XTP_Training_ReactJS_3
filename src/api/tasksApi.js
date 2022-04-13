@@ -2,10 +2,10 @@ import axiosClient from "./axiosClient";
 
 const base_url = "/tasks";
 
-const tasksApi = {
-  getAll() {
+const api = {
+  getAll(params) {
       const url = `${base_url}/`;
-      return axiosClient.get(url)
+      return axiosClient.get(url, {params})
   },
   get(id) {
       const url = `${base_url}/${id}`
@@ -28,4 +28,4 @@ const tasksApi = {
       return axiosClient.get(url)
   }
 };
-export default tasksApi;
+export default api;

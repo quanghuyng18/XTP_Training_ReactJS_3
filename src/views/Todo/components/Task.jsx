@@ -73,11 +73,11 @@ function Task(props) {
           </thead>
           <tbody>
             {items
-            .filter((i) => {
-              return (
-                i.name.toLocaleLowerCase().includes(valFilter.valSearch) && i.status.includes(valFilter.valSelect)
-              );
-            })
+            // .filter((i) => {
+            //   return (
+            //     i.name.toLocaleLowerCase().includes(valFilter.valSearch) && i.status.includes(valFilter.valSelect)
+            //   );
+            // })
             .reverse()
               .map((item) => {
                 return (

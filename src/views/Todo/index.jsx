@@ -1,77 +1,57 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import './styles.scss';
 import AddTask from './components/AddTask';
 import Task from './components/Task';
 import EditTask from './components/EditTask';
-import Random from '../../Helper/Random';
-import axios from 'axios';
+import tasksApi from '../../api/tasksApi';
 
 function Todo(props) {
-  const inititems = [
-    {
-      id: '123124',
-      name: 'Aflreds Futterkiste',
-      status: 'new',
-      time: '1648734546083',
-    },
-    {
-      id: '123134',
-      name: 'abc',
-      status: 'depending',
-      time: '1648734546084',
-    },
-    {
-      id: '122124',
-      name: 'abcd',
-      status: 'new',
-      time: '1648734546085`',
-    },
-  ];
+  const [items, setItems] = useState([]);
+  useEffect(() => {
+    tasksApi.getAll().then((res) => setItems(res.data));
+  }, []);
+
   const [valueInput, setValueInput] = useState({
     inputTask: '',
     inputEdit: '',
   });
 
-  const [items, setItems] = useState(inititems);
-  const handleSubmit = (val) => {
+  const handleSubmit = async (val) => {
     let task = val.inputTask;
     let schema = {
       name: task,
       status: 'new',
     };
-    axios.post('https://api-fake-todo.herokuapp.com/api/tasks', schema).then((res) => console.log("create",res.data));
-
+    await tasksApi
+      .add(schema)
+      .then((res) => alert('hello'))
+      .catch((e) => alert('create bad'));
+    await tasksApi.getAll().then((res) => setItems(res.data));
   };
 
-  const handleStatus = (id, status) => {
-    let item = [...items];
-    let index = item.findIndex((item) => item.id === id);
-    item[index].status = status;
-    setItems(item);
+  const handleStatus =async (id, status) => {
+    await tasksApi.update(id, { status: status });
+    await tasksApi.getAll().then((res) => setItems(res.data));
   };
-  const handleDelete = (id) => {
-    let item = [...items];
-    let index = item.findIndex((item) => item.id === id);
-    item.splice(index, 1);
-    setItems(item);
+  const handleDelete = async (id) => {
+    await tasksApi.remove(id);
+    await tasksApi.getAll().then((res) => setItems(res.data));
   };
 
-  const handleOpenEdit = (id) => {
-    let item = [...items];
-    let index = item.findIndex((item) => item.id === id);
-    setValueInput({
-      ...valueInput,
-      inputEdit: items[index].name,
-      idElementEdit: id,
-    });
+  const handleOpenEdit = async (id) => {
+    await tasksApi.get(id).then((res) =>
+      setValueInput({
+        ...valueInput,
+        inputEdit: res.data.name,
+        idElementEdit: id,
+      })
+    );
     setIsOpenEdit(!isOpenEdit);
   };
 
-  const handleSaveEdit = (value) => {
-    let item = [...items];
-    let index = item.findIndex((item) => item.id === valueInput.idElementEdit);
-    item[index].name = value;
-    setItems(item);
+  const handleSaveEdit = async (value) => {
+    await tasksApi.update(valueInput.idElementEdit, { name: value });
+    await tasksApi.getAll().then((res) => setItems(res.data));
     setIsOpenEdit(!isOpenEdit);
   };
 
@@ -81,10 +61,11 @@ function Todo(props) {
   };
 
   const handleGetValFilter = (val) => {
-    const item = JSON.parse(JSON.stringify(items));
-    const result = item.filter((i) => i.name.includes(val.valSearch) && i.status.includes(val.valSelect));
-    console.log(result);
-    // setItems(result);
+    const valSearch = {
+      name_like: val.valSearch,
+      status_like: val.valSelect,
+    };
+    tasksApi.getAll(valSearch).then((res) => setItems(res.data));
   };
   return (
     <div className="todo">
