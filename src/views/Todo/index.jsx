@@ -4,6 +4,7 @@ import AddTask from './components/AddTask';
 import Task from './components/Task';
 import EditTask from './components/EditTask';
 import Random from '../../Helper/Random';
+import axios from 'axios';
 
 function Todo(props) {
   const inititems = [
@@ -15,13 +16,13 @@ function Todo(props) {
     },
     {
       id: '123134',
-      name: 'bbbb',
+      name: 'abc',
       status: 'depending',
       time: '1648734546084',
     },
     {
       id: '122124',
-      name: 'vvv',
+      name: 'abcd',
       status: 'new',
       time: '1648734546085`',
     },
@@ -34,15 +35,12 @@ function Todo(props) {
   const [items, setItems] = useState(inititems);
   const handleSubmit = (val) => {
     let task = val.inputTask;
-    let item = [...items];
     let schema = {
-      id: Random.number(6),
       name: task,
       status: 'new',
-      time: new Date().getTime(),
     };
-    item.push(schema);
-    setItems(item);
+    axios.post('https://api-fake-todo.herokuapp.com/api/tasks', schema).then((res) => console.log("create",res.data));
+
   };
 
   const handleStatus = (id, status) => {
@@ -81,11 +79,24 @@ function Todo(props) {
   const handleCloseEdit = () => {
     setIsOpenEdit(!isOpenEdit);
   };
+
+  const handleGetValFilter = (val) => {
+    const item = JSON.parse(JSON.stringify(items));
+    const result = item.filter((i) => i.name.includes(val.valSearch) && i.status.includes(val.valSelect));
+    console.log(result);
+    // setItems(result);
+  };
   return (
     <div className="todo">
       <div className="todo__title">Todos</div>
       <AddTask handleSubmit={handleSubmit} />
-      <Task handleStatus={handleStatus} handleEdit={handleOpenEdit} handleDelete={handleDelete} items={items} />
+      <Task
+        handleStatus={handleStatus}
+        handleEdit={handleOpenEdit}
+        handleDelete={handleDelete}
+        handleGetValFilter={handleGetValFilter}
+        items={items}
+      />
       <EditTask
         isOpenEdit={isOpenEdit}
         valueEdit={valueInput.inputEdit}

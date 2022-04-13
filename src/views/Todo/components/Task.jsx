@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
 import classNames from 'classnames';
 
@@ -32,6 +32,9 @@ function Task(props) {
   const handleDelete = (id) => {
     props.handleDelete(id);
   };
+  useEffect(()=>{
+    props.handleGetValFilter(valFilter);
+  },[valFilter])
   return (
     <div className="todo__task task">
       <div className="todo__header header">
@@ -70,12 +73,12 @@ function Task(props) {
           </thead>
           <tbody>
             {items
-              .filter((i) => {
-                return (
-                  i.name.toLocaleLowerCase().includes(valFilter.valSearch) && i.status.includes(valFilter.valSelect)
-                );
-              })
-              .reverse()
+            .filter((i) => {
+              return (
+                i.name.toLocaleLowerCase().includes(valFilter.valSearch) && i.status.includes(valFilter.valSelect)
+              );
+            })
+            .reverse()
               .map((item) => {
                 return (
                   <tr
